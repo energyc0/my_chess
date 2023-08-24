@@ -4,7 +4,7 @@
 class chess_figure
 {
 protected:
-	char emblem;	// ?????? ??????????? ?????? ?? ??????? ????
+	char emblem;	// Отображение фигуры на шахматной доске
 public:
 	char returnEmblem() const
 	{
@@ -18,7 +18,7 @@ public:
 
 //////////////////////////////////
 
-class cell : public chess_figure
+class cell : public chess_figure	// шахматная клетка
 {
 	enum color { WHITE, BLACK };
 public:
@@ -28,22 +28,22 @@ public:
 		{
 			if (j % 2 == 0)
 			{
-				emblem = char(219);
+				emblem = char(219);	// белый цвет
 			}
 			else
 			{
-				emblem = char(177);
+				emblem = char(177); // чёрный цвет
 			}
 		}
 		else
 		{
 			if (j % 2 == 0)
 			{
-				emblem = char(177);
+				emblem = char(177); // чёрный цвет
 			}
 			else
 			{
-				emblem = char(219);
+				emblem = char(219); // белый цвет
 			}
 		}
 	}
@@ -51,7 +51,7 @@ public:
 
 //////////////////////////////////
 
-class pawn : public chess_figure	// ?????
+class pawn : public chess_figure	// пешка
 {
 public:
 	pawn() : chess_figure()
@@ -62,7 +62,7 @@ public:
 
 //////////////////////////////////
 
-class rook : public chess_figure	// ?????
+class rook : public chess_figure	// ладья
 {
 public:
 	rook() : chess_figure()
@@ -73,7 +73,7 @@ public:
 
 //////////////////////////////////
 
-class bishop : public chess_figure	// ????
+class bishop : public chess_figure	// слон
 {
 public:
 	bishop() : chess_figure()
@@ -84,7 +84,7 @@ public:
 
 //////////////////////////////////
 
-class knight : public chess_figure	// ????
+class knight : public chess_figure	// конь
 {
 public:
 	knight() : chess_figure()
@@ -95,7 +95,7 @@ public:
 
 //////////////////////////////////
 
-class queen : public chess_figure	// ????????
+class queen : public chess_figure	// королева
 {
 public:
 	queen() : chess_figure()
@@ -106,7 +106,7 @@ public:
 
 //////////////////////////////////
 
-class king : public chess_figure	// ??????
+class king : public chess_figure	// король
 {
 public:
 	king() : chess_figure()

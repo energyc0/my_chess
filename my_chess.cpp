@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-	chessBoard::startGame();
-	chessBoard::drawBoard();
+	chessBoard::startGame();	// начало игры
+	chessBoard::drawBoard();	// прорисовать шахматную доску
 }

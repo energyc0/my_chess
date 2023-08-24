@@ -5,7 +5,7 @@ using namespace std;
 
 chess_figure* chessBoard::field[8][8];
 
-void chessBoard::startGame()
+void chessBoard::startGame()	// начало игры и расстановка фигур по местам
 {
 	for (int j = 0; j < 8; j++)
 	{
@@ -60,17 +60,17 @@ void chessBoard::startGame()
 	}
 }
 
-void chessBoard::drawWhiteCell(char emb)
+void chessBoard::drawWhiteCell(char emb)	// нарисовать белую клетку с фигурой или без
 {
 	cout << char(219) << emb << char(219);
 }
 
-void chessBoard::drawBlackCell(char emb)
+void chessBoard::drawBlackCell(char emb)	// нарисовать чёрную клетку с фигурой или без
 {
 	cout << char(177) << emb << char(177);
 }
 
-void chessBoard::drawBoard()
+void chessBoard::drawBoard()	// консольная графика шахматной доски
 {
 	for (int j = 0; j < 8; j++)
 	{
@@ -99,23 +99,14 @@ void chessBoard::drawBoard()
 					chessBoard::drawWhiteCell(field[i][j]->returnEmblem());
 				}
 			}
+			if (i == 7)
+			{
+				cout << " | " << char(65 + j);	// указатель координат A - H
+			}
 		}
 		cout << endl;
 	}
+	for (int i = 0; i < 26; i++)	// отделитель от координат
+		cout << "-";
+	cout << "\n 1  2  3  4  5  6  7  8 ";	// указатель координат 1 - 8;
 }
-
-
-
-
-
-/*
-switch (field[i][j]->returnEmblem())
-{
-	case char(239):	//пешка
-	case char(232):	//королева
-	case char(233):	//король
-	case char(173): //слон
-	case char(244): //конь
-	case char(206): //ладья
-}
-*/
