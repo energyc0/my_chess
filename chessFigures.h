@@ -1,11 +1,20 @@
 #pragma once
 #include <iostream>
 
-class chess_figure
+enum team { WHITE, BLACK };
+
+class chessBoardElement
 {
 protected:
-	char emblem;	// Отображение фигуры на шахматной доске
+	int cordX;
+	int cordY;
+	char emblem;	// Отображение элемента на шахматной доске
 public:
+	chessBoardElement(int x, int y)
+	{
+		cordX = x;
+		cordY = y;
+	}
 	char returnEmblem() const
 	{
 		return emblem;
@@ -16,17 +25,27 @@ public:
 	}
 };
 
+class chess_figure : public chessBoardElement
+{
+protected:
+	team figureTeam;
+public:
+	chess_figure(int x, int y, team t) : chessBoardElement(x, y)
+	{
+		figureTeam = t;
+	}
+};
+
 //////////////////////////////////
 
-class cell : public chess_figure	// шахматная клетка
+class cell : public chessBoardElement	// шахматная клетка
 {
-	enum color { WHITE, BLACK };
 public:
-	cell(int i, int j) : chess_figure()
+	cell(int x, int y) : chessBoardElement(x, y)
 	{
-		if (i % 2 == 0)
+		if (x % 2 == 0)
 		{
-			if (j % 2 == 0)
+			if (y % 2 == 0)
 			{
 				emblem = char(219);	// белый цвет
 			}
@@ -37,7 +56,7 @@ public:
 		}
 		else
 		{
-			if (j % 2 == 0)
+			if (y % 2 == 0)
 			{
 				emblem = char(177); // чёрный цвет
 			}
@@ -54,7 +73,7 @@ public:
 class pawn : public chess_figure	// пешка
 {
 public:
-	pawn() : chess_figure()
+	pawn(int x, int y, team t) : chess_figure(x,y, t)
 	{
 		emblem = 'P';
 	}
@@ -65,7 +84,7 @@ public:
 class rook : public chess_figure	// ладья
 {
 public:
-	rook() : chess_figure()
+	rook(int x, int y, team t) : chess_figure(x,y,t)
 	{
 		emblem = 'R';
 	}
@@ -76,7 +95,7 @@ public:
 class bishop : public chess_figure	// слон
 {
 public:
-	bishop() : chess_figure()
+	bishop(int x, int y, team t) : chess_figure(x,y,t)
 	{
 		emblem = 'B';
 	}
@@ -87,7 +106,7 @@ public:
 class knight : public chess_figure	// конь
 {
 public:
-	knight() : chess_figure()
+	knight(int x, int y, team t) : chess_figure(x,y,t)
 	{
 		emblem = 'K';
 	}
@@ -98,7 +117,7 @@ public:
 class queen : public chess_figure	// королева
 {
 public:
-	queen() : chess_figure()
+	queen(int x, int y, team t) : chess_figure(x,y,t)
 	{
 		emblem = 'Q';
 	}
@@ -109,7 +128,7 @@ public:
 class king : public chess_figure	// король
 {
 public:
-	king() : chess_figure()
+	king(int x, int y, team t) : chess_figure(x,y,t)
 	{
 		emblem = 'K';
 	}

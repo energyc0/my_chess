@@ -3,58 +3,63 @@
 
 using namespace std;
 
-chess_figure* chessBoard::field[8][8];
+chessBoardElement* chessBoard::field[8][8];
 
 void chessBoard::startGame()	// начало игры и расстановка фигур по местам
 {
-	for (int j = 0; j < 8; j++)
+	team temp; // переменная определяющая команду фигуры
+	for (int y = 0; y < 8; y++)
 	{
-		for (int i = 0; i < 8; i++)
+		if (y == 0 || y == 1)
+			temp = BLACK;
+		else
+			temp = WHITE;
+		for (int x = 0; x < 8; x++)
 		{
-			if (j == 0 || j == 7)
+			if (y == 0 || y == 7)
 			{
-				if (i == 0 || i == 7)
+				if (x == 0 || x == 7)
 				{
-					field[i][j] = new rook;
+					field[x][y] = new rook(x,y, temp);
 				}
-				else if (i == 1 || i == 6)
+				else if (x == 1 || x == 6)
 				{
-					field[i][j] = new knight;
+					field[x][y] = new knight(x, y, temp);
 				}
-				else if (i == 2 || i == 5)
+				else if (x == 2 || x == 5)
 				{
-					field[i][j] = new bishop;
+					field[x][y] = new bishop(x, y, temp);
 				}
-				else if (i == 3)
+				else if (x == 3)
 				{
-					if (j == 0)
+					if (y == 0)
 					{
-						field[i][j] = new queen;
+						field[x][y] = new queen(x, y, temp);
 					}
 					else
 					{
-						field[i][j] = new king;
+						field[x][y] = new king(x, y, temp);
 					}
 				}
 				else
 				{
-					if (j == 0)
+					if (y == 0)
 					{
-						field[i][j] = new king;
+						field[x][y] = new king(x, y, temp);
 					}
 					else
 					{
-						field[i][j] = new queen;
+						field[x][y] = new queen(x, y, temp);
 					}
 				}
 			}
-			else if (j == 1 || j == 6)
+			else if (y == 1 || y == 6)
 			{
-				field[i][j] = new pawn;
+				field[x][y] = new pawn(x, y, temp);
 			}
 			else
 			{
-				field[i][j] = new cell(i,j);
+				field[x][y] = new cell(x, y);
 			}
 		}
 	}
@@ -72,36 +77,36 @@ void chessBoard::drawBlackCell(char emb)	// нарисовать чёрную клетку с фигурой и
 
 void chessBoard::drawBoard()	// консольная графика шахматной доски
 {
-	for (int j = 0; j < 8; j++)
+	for (int y = 0; y < 8; y++)
 	{
-		for (int i = 0; i < 8; i++)
+		for (int x = 0; x < 8; x++)
 		{
-			if (i % 2 == 0)
+			if (x % 2 == 0)
 			{
-				if (j % 2 == 0)
+				if (y % 2 == 0)
 				{
-					chessBoard::drawWhiteCell(field[i][j]->returnEmblem());
+					chessBoard::drawWhiteCell(field[x][y]->returnEmblem());
 				}
 				else
 				{
-					chessBoard::drawBlackCell(field[i][j]->returnEmblem());
+					chessBoard::drawBlackCell(field[x][y]->returnEmblem());
 				}
 			}
 			else
 			{
-				if (j % 2 == 0)
+				if (y % 2 == 0)
 				{
-					chessBoard::drawBlackCell(field[i][j]->returnEmblem());
+					chessBoard::drawBlackCell(field[x][y]->returnEmblem());
 				}
 				else
 				{
 
-					chessBoard::drawWhiteCell(field[i][j]->returnEmblem());
+					chessBoard::drawWhiteCell(field[x][y]->returnEmblem());
 				}
 			}
-			if (i == 7)
+			if (x == 7)
 			{
-				cout << " | " << char(65 + j);	// указатель координат A - H
+				cout << " | " << char(65 + y);	// указатель координат A - H
 			}
 		}
 		cout << endl;
