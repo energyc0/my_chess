@@ -12,7 +12,7 @@ public:
 	}
 	void showFigure() const
 	{
-		std::cout << " " << emblem << " ";
+		std::cout << emblem;
 	}
 };
 
@@ -22,9 +22,30 @@ class cell : public chess_figure
 {
 	enum color { WHITE, BLACK };
 public:
-	cell() : chess_figure()
+	cell(int i, int j) : chess_figure()
 	{
-		emblem = 0;
+		if (i % 2 == 0)
+		{
+			if (j % 2 == 0)
+			{
+				emblem = char(219);
+			}
+			else
+			{
+				emblem = char(177);
+			}
+		}
+		else
+		{
+			if (j % 2 == 0)
+			{
+				emblem = char(177);
+			}
+			else
+			{
+				emblem = char(219);
+			}
+		}
 	}
 };
 

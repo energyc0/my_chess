@@ -54,57 +54,50 @@ void chessBoard::startGame()
 			}
 			else
 			{
-				field[i][j] = new cell;
+				field[i][j] = new cell(i,j);
 			}
 		}
 	}
 }
 
-void chessBoard::drawWhiteCell()
+void chessBoard::drawWhiteCell(char emb)
 {
-	cout << char(219) << char(219) << char(219);
+	cout << char(219) << emb << char(219);
 }
 
-void chessBoard::drawBlackCell()
+void chessBoard::drawBlackCell(char emb)
 {
-	cout << char(177) << char(177) << char(177);
+	cout << char(177) << emb << char(177);
 }
 
 void chessBoard::drawBoard()
 {
-	for (int i = 0; i < 8; i++)
+	for (int j = 0; j < 8; j++)
 	{
-		for (int j = 0; j < 8; j++)
+		for (int i = 0; i < 8; i++)
 		{
-
-			if (field[i][j]->returnEmblem() == 0) // если пустая клетка
+			if (i % 2 == 0)
 			{
-				if (i % 2 == 0)
+				if (j % 2 == 0)
 				{
-					if (j % 2 == 0)
-					{
-						chessBoard::drawWhiteCell();
-					}
-					else
-					{
-						chessBoard::drawBlackCell();
-					}
+					chessBoard::drawWhiteCell(field[i][j]->returnEmblem());
 				}
 				else
 				{
-					if (j % 2 == 0)
-					{
-						chessBoard::drawBlackCell();
-					}
-					else
-					{
-						chessBoard::drawWhiteCell();
-					}
+					chessBoard::drawBlackCell(field[i][j]->returnEmblem());
 				}
 			}
 			else
 			{
-				field[i][j]->showFigure();
+				if (j % 2 == 0)
+				{
+					chessBoard::drawBlackCell(field[i][j]->returnEmblem());
+				}
+				else
+				{
+
+					chessBoard::drawWhiteCell(field[i][j]->returnEmblem());
+				}
 			}
 		}
 		cout << endl;
