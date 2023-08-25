@@ -3,6 +3,13 @@
 
 enum team { WHITE, BLACK };
 
+const char KingEmblem = char(253);
+const char QueenEmblem = 'Q';
+const char PawnEmblem = 'P';
+const char RookEmblem = 'R';
+const char BishopEmblem = 'B';
+const char KnightEmblem = 'K';
+
 class chessBoardElement	// абстрактный класс элементов шахматной доски
 {
 protected:
@@ -90,7 +97,7 @@ class pawn : public chess_figure	// пешка
 public:
 	pawn(int x, int y, team t) : chess_figure(x,y, t)
 	{
-		emblem = 'P';
+		emblem = PawnEmblem;
 	}
 	bool rightFigureMove(int McordX, int McordY) const;
 };
@@ -102,7 +109,7 @@ class rook : public chess_figure	// ладья
 public:
 	rook(int x, int y, team t) : chess_figure(x,y,t)
 	{
-		emblem = 'R';
+		emblem = RookEmblem;
 	}
 	bool rightFigureMove(int McordX, int McordY) const;
 };
@@ -114,7 +121,7 @@ class bishop : public chess_figure	// слон
 public:
 	bishop(int x, int y, team t) : chess_figure(x,y,t)
 	{
-		emblem = 'B';
+		emblem = BishopEmblem;
 	}
 	bool rightFigureMove(int McordX, int McordY) const;
 };
@@ -126,7 +133,7 @@ class knight : public chess_figure	// конь
 public:
 	knight(int x, int y, team t) : chess_figure(x,y,t)
 	{
-		emblem = 'K';
+		emblem = KnightEmblem;
 	}
 	bool rightFigureMove(int McordX, int McordY) const;
 };
@@ -138,7 +145,7 @@ class queen : public chess_figure	// королева
 public:
 	queen(int x, int y, team t) : chess_figure(x,y,t)
 	{
-		emblem = 'Q';
+		emblem = QueenEmblem;
 	}
 	bool rightFigureMove(int McordX, int McordY) const;
 };

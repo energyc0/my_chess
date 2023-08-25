@@ -161,7 +161,7 @@ void chessBoard::drawBoard(team Player)	// консольная графика шахматной доски
 	}
 	for (int i = 0; i < 33; i++)	// отделитель от координат
 		cout << "_";
-	cout << "|		'P' is pawn, 'R' is rook, 'B' is bishop, 'K' is knight, 'Q' is queen, '"<< char(253) <<"' is king";		// памятка
+	cout << "|		'"<< PawnEmblem << "' is pawn, '" << RookEmblem <<"' is rook, '" << RookEmblem <<"' is bishop, '"<<KnightEmblem <<"' is knight, '" << QueenEmblem<<"' is queen, '" << KingEmblem << "' is king";		// памятка
 	cout << "\n 1   2   3   4   5   6   7   8			" << "'" << char(254) << "' is white player`s figure, ' ' is black player`s figure\n\n";	// указатель координат 1 - 8
 }
 
@@ -189,7 +189,7 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 		}
 		else                            // проверка на неизвестную команду
 		{
-			if (ans[0] < 'A' || ans[0] > 'H')
+			if ((ans[0] < 'A' || ans[0] > 'H') && (ans[0] < 'a' || ans[0] > 'h'))
 				cin.clear(ios::badbit);
 			else if (ans[1] < '1' || ans[1] > '8')
 				cin.clear(ios::badbit);
@@ -198,7 +198,8 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 			cout << "Undefined command, try again";
 		else
 		{
-			FcordY = ans[0] - 65;
+			ans[0] = tolower(ans[0]);
+			FcordY = ans[0] - 97;
 			FcordX = ans[1] - 49;
 			if (*playerTeam == WHITE)
 				teamEmb = char(254);
@@ -232,20 +233,27 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 		}
 		else                            // проверка на неизвестную команду
 		{
-			if (ans[0] < 'A' || ans[0] > 'H')
+			if ((ans[0] < 'A' || ans[0] > 'H') && (ans[0] < 'a' || ans[0] > 'h'))
 				cin.clear(ios::badbit);
 			else if (ans[1] < '1' || ans[1] > '8')
 				cin.clear(ios::badbit);
 		}
-		if (cin.bad())					// eсли неизвестная команда
-			cout << "Undefined command, try again";
-		McordY = ans[0] - 65;
+		ans[0] = tolower(ans[0]);
+		McordY = ans[0] - 97;
 		McordX = ans[1] - 49;
-		if (field[FcordX][FcordY]->rightFigureMove(McordX, McordY))
+		if ((McordX == FcordX) && (McordY == FcordY))	// если указаны одни и те же координаты
+		{
+			cout << "You need to move your figure";
+		}
+		else if (cin.bad())					// eсли неизвестная команда
+		{
+			cout << "Undefined command, try again";
+		}
+		else if (field[FcordX][FcordY]->rightFigureMove(McordX, McordY))
 		{
 			chessBoardElement* tempptr;
 			tempptr = field[McordX][McordY];
-			if (field[McordX][McordY]->returnEmblem() == 'K')	// если убит чёй-то король
+			if (field[McordX][McordY]->returnEmblem() == KingEmblem)	// если убит чёй-то король
 			{
 				field[McordX][McordY] = field[FcordX][FcordY];
 				field[FcordX][FcordY] = new cell(FcordX, FcordY);
