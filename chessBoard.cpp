@@ -1,6 +1,8 @@
 #include "chessBoard.h"
 #include <iostream>
 
+chessBoardElement* chessBoard::field[8][8];
+
 using namespace std;
 
 void chessBoard::startGame()	// начало игры и расстановка фигур по местам
@@ -159,7 +161,7 @@ void chessBoard::drawBoard(team Player)	// консольная графика шахматной доски
 	}
 	for (int i = 0; i < 33; i++)	// отделитель от координат
 		cout << "_";
-	cout << "|		'P' is pawn, 'R' is rook, 'B' is bishop, 'K' is knight, 'Q' is queen, 'K' is king";		// памятка
+	cout << "|		'P' is pawn, 'R' is rook, 'B' is bishop, 'K' is knight, 'Q' is queen, '"<< char(253) <<"' is king";		// памятка
 	cout << "\n 1   2   3   4   5   6   7   8			" << "'" << char(254) << "' is white player`s figure, ' ' is black player`s figure\n\n";	// указатель координат 1 - 8
 }
 
@@ -237,15 +239,11 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 		}
 		if (cin.bad())					// eсли неизвестная команда
 			cout << "Undefined command, try again";
-		else
+		McordY = ans[0] - 65;
+		McordX = ans[1] - 49;
+		if (field[FcordX][FcordY]->rightFigureMove(McordX, McordY))
 		{
 			chessBoardElement* tempptr;
-			McordY = ans[0] - 65;
-			McordX = ans[1] - 49;
-			if (field[McordX][McordY]->rightFigureMove(McordX, McordY))
-			{
-				break;
-			}
 			tempptr = field[McordX][McordY];
 			if (field[McordX][McordY]->returnEmblem() == 'K')	// если убит чёй-то король
 			{
@@ -268,6 +266,7 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 				field[McordX][McordY] = field[FcordX][FcordY];
 				field[FcordX][FcordY] = new cell(FcordX, FcordY);
 				delete tempptr;
+				field[McordX][McordY]->changePlace(McordX, McordY);
 				if (*playerTeam == WHITE)
 					*playerTeam = BLACK;
 				else

@@ -27,6 +27,11 @@ public:
 		return TeamEmblem;
 	}
 	virtual bool rightFigureMove(int McordX, int McordY) const = 0;	// правильность передвижения фигур
+	virtual void changePlace(int McordX, int McordY)
+	{
+		cordX = McordX;
+		cordY = McordY;
+	}
 };
 
 /////////////////////////////////////////////////////
@@ -145,7 +150,7 @@ class king : public chess_figure	// король
 public:
 	king(int x, int y, team t) : chess_figure(x,y,t)
 	{
-		emblem = 'K';
+		emblem = char(253);
 	}
 	bool rightFigureMove(int McordX, int McordY) const;
 };

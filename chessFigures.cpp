@@ -8,7 +8,7 @@ bool pawn::rightFigureMove(int McordX, int McordY) const	// правильность хода пе
 
 ///////////////////////////////
 
-bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода пешки ладьи
+bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода ладьи
 {
 	return true;
 }
