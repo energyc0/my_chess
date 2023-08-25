@@ -1,42 +1,47 @@
 #pragma once
-#include <iostream>
 
 enum team { WHITE, BLACK };
 
-class chessBoardElement
+class chessBoardElement	// виртуальный класс элементов шахматной доски
 {
 protected:
 	int cordX;
 	int cordY;
 	char emblem;	// Отображение элемента на шахматной доске
+	char TeamEmblem;
 public:
 	chessBoardElement(int x, int y)
 	{
 		cordX = x;
 		cordY = y;
+		emblem = '0';
+		TeamEmblem = '0';
 	}
-	char returnEmblem() const
+	virtual char returnEmblem() const
 	{
 		return emblem;
 	}
-	void showFigure() const
+	virtual char returnTeam() const
 	{
-		std::cout << emblem;
+		return TeamEmblem;
 	}
 };
+
+/////////////////////////////////////////////////////
 
 class chess_figure : public chessBoardElement
 {
-protected:
-	team figureTeam;
 public:
 	chess_figure(int x, int y, team t) : chessBoardElement(x, y)
 	{
-		figureTeam = t;
+		if (t == WHITE)
+			TeamEmblem = char(254);		// команда белых
+		else
+			TeamEmblem = ' ';			// команда чёрных
 	}
 };
 
-//////////////////////////////////
+//////////////////////////////////////////////////////
 
 class cell : public chessBoardElement	// шахматная клетка
 {
@@ -65,6 +70,7 @@ public:
 				emblem = char(219); // белый цвет
 			}
 		}
+		TeamEmblem = emblem;
 	}
 };
 

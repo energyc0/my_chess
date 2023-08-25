@@ -65,53 +65,100 @@ void chessBoard::startGame()	// начало игры и расстановка фигур по местам
 	}
 }
 
-void chessBoard::drawWhiteCell(char emb)	// нарисовать белую клетку с фигурой или без
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//													Графика																	 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+void chessBoard::drawWhite(char emb, char Wteam)	// нарисовать белую клетку с фигурой или без
 {
-	cout << char(219) << emb << char(219);
+	cout << char(219) << emb  << Wteam << char(219);
 }
 
-void chessBoard::drawBlackCell(char emb)	// нарисовать чёрную клетку с фигурой или без
+void chessBoard::drawBlack(char emb, char Wteam)	// нарисовать чёрную клетку с фигурой или без
 {
-	cout << char(177) << emb << char(177);
+	cout << char(177) << emb  << Wteam << char(177);
+}
+
+void chessBoard::drawCell(int x, int y)
+{
+	if (x % 2 == 0)
+	{
+		if (y % 2 == 0)
+		{
+			chessBoard::drawWhite(field[x][y]->returnEmblem(), field[x][y]->returnTeam());
+		}
+		else
+		{
+			chessBoard::drawBlack(field[x][y]->returnEmblem(), field[x][y]->returnTeam());
+		}
+	}
+	else
+	{
+		if (y % 2 == 0)
+		{
+			chessBoard::drawBlack(field[x][y]->returnEmblem(), field[x][y]->returnTeam());
+		}
+		else
+		{
+
+			chessBoard::drawWhite(field[x][y]->returnEmblem(), field[x][y]->returnTeam());
+		}
+	}
 }
 
 void chessBoard::drawBoard()	// консольная графика шахматной доски
 {
 	for (int y = 0; y < 8; y++)
 	{
-		for (int x = 0; x < 8; x++)
+		for (int k = 0; k < 3; k++)
 		{
-			if (x % 2 == 0)
+			for (int x = 0; x < 8; x++)
 			{
-				if (y % 2 == 0)
+				if (k == 1)
 				{
-					chessBoard::drawWhiteCell(field[x][y]->returnEmblem());
+					chessBoard::drawCell(x, y);
+					if (x == 7)
+					{
+						cout << " | " << char(65 + y);	// указатель координат A - H
+					}
 				}
 				else
 				{
-					chessBoard::drawBlackCell(field[x][y]->returnEmblem());
-				}
-			}
-			else
-			{
-				if (y % 2 == 0)
-				{
-					chessBoard::drawBlackCell(field[x][y]->returnEmblem());
-				}
-				else
-				{
+					if (x % 2 == 0)
+					{
+						if (y % 2 == 0)
+						{
+							chessBoard::drawWhite(char(219), char(219));	// пустая белая клетка
+						}
+						else
+						{
+							chessBoard::drawBlack(char(177), char(177));	// пустая чёрная клетка
+						}
+					}
+					else
+					{
+						if (y % 2 == 0)
+						{
+							chessBoard::drawBlack(char(177), char(177));	// пустая чёрная клетка
+						}
+						else
+						{
 
-					chessBoard::drawWhiteCell(field[x][y]->returnEmblem());
+							chessBoard::drawWhite(char(219), char(219));  // пустая белая клетка
+						}
+					}
+					if (x == 7)
+					{
+						cout << " | ";
+					}
 				}
 			}
-			if (x == 7)
-			{
-				cout << " | " << char(65 + y);	// указатель координат A - H
-			}
+			cout << endl;
 		}
-		cout << endl;
 	}
-	for (int i = 0; i < 26; i++)	// отделитель от координат
+	for (int i = 0; i < 34; i++)	// отделитель от координат
 		cout << "-";
-	cout << "\n 1  2  3  4  5  6  7  8 ";	// указатель координат 1 - 8;
+	cout << "\n 1   2   3   4   5   6   7   8  ";	// указатель координат 1 - 8;
 }
