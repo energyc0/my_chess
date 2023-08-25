@@ -108,8 +108,9 @@ void chessBoard::drawCell(int x, int y)
 	}
 }
 
-void chessBoard::drawBoard()	// консольная графика шахматной доски
+void chessBoard::drawBoard(team Player)	// консольная графика шахматной доски
 {
+	system("cls");
 	for (int y = 0; y < 8; y++)
 	{
 		for (int k = 0; k < 3; k++)
@@ -158,7 +159,120 @@ void chessBoard::drawBoard()	// консольная графика шахматной доски
 			cout << endl;
 		}
 	}
-	for (int i = 0; i < 34; i++)	// отделитель от координат
-		cout << "-";
-	cout << "\n 1   2   3   4   5   6   7   8  ";	// указатель координат 1 - 8;
+	for (int i = 0; i < 33; i++)	// отделитель от координат
+		cout << "_";
+	cout << "|		'P' is pawn, 'R' is rook, 'B' is bishop, 'K' is knight, 'Q' is queen, 'K' is king";		// памятка
+	cout << "\n 1   2   3   4   5   6   7   8			" << "'" << char(254) << "' is white player`s figure, ' ' is black player`s figure\n\n";	// указатель координат 1 - 8
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//													Управление																 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из игры
+{
+	string ans;
+	char teamEmb;
+	int FcordX, FcordY, McordX, McordY;	// координаты фигуры и координаты места передвижения
+	while (true)
+	{
+		cin.clear();
+		cout << "\nEnter the command: ";
+		ws(cin) >> ans;
+		if (ans == "exit")	// пользователь выходит
+		{
+			exit(0);
+		}
+		else if (ans.length() != 2)		// проверка на неизвестную команду
+		{
+			cin.clear(ios::badbit);
+		}
+		else                            // проверка на неизвестную команду
+		{
+			if (ans[0] < 'A' || ans[0] > 'H')
+				cin.clear(ios::badbit);
+			else if (ans[1] < '1' || ans[1] > '8')
+				cin.clear(ios::badbit);
+		}
+		if (cin.bad())					// eсли неизвестная команда
+			cout << "Undefined command, try again";
+		else
+		{
+			FcordY = ans[0] - 65;
+			FcordX = ans[1] - 49;
+			if (*playerTeam == WHITE)
+				teamEmb = char(254);
+			else
+				teamEmb = ' ';
+			if (field[FcordX][FcordY]->returnTeam() == teamEmb)	// проверка на соответствие команды игрока и фигуры
+				break;
+			else
+				if (field[FcordX][FcordY]->returnEmblem() == char(177) || field[FcordX][FcordY]->returnEmblem() == char(219))	// если пустая клетка
+					cout << "There is no figure, try again";
+				else
+					cout << "This is the opponent`s figure, try again";		// или фигура противника
+		}
+		cin.ignore(100, '\n');
+	}
+
+	cin.ignore(100, '\n');
+
+	while (true)
+	{
+		cin.clear();
+		cout << "\nEnter coordinates to move(enter 'cancel' to cancel selected figure): ";
+		ws(cin) >> ans;
+		if (ans == "cancel")	// пользователь выходит
+		{
+			return;
+		}
+		else if (ans.length() != 2)		// проверка на неизвестную команду
+		{
+			cin.clear(ios::badbit);
+		}
+		else                            // проверка на неизвестную команду
+		{
+			if (ans[0] < 'A' || ans[0] > 'H')
+				cin.clear(ios::badbit);
+			else if (ans[1] < '1' || ans[1] > '8')
+				cin.clear(ios::badbit);
+		}
+		if (cin.bad())					// eсли неизвестная команда
+			cout << "Undefined command, try again";
+		else
+		{
+			chessBoardElement* tempptr;
+			McordY = ans[0] - 65;
+			McordX = ans[1] - 49;
+			tempptr = field[McordX][McordY];
+			if (field[McordX][McordY]->returnEmblem() == 'K')	// если убит чёй-то король
+			{
+				field[McordX][McordY] = field[FcordX][FcordY];
+				field[FcordX][FcordY] = new cell(FcordX, FcordY);
+				delete tempptr;
+				chessBoard::drawBoard(*playerTeam);
+				if (field[McordX][McordY]->returnTeam() == ' ') // если короля убила чёрная фигура
+				{
+					cout << "Black player`s win";
+				}
+				else
+				{
+					cout << "White player`s win";
+				}
+				exit(0);
+			}
+			else
+			{
+				field[McordX][McordY] = field[FcordX][FcordY];
+				field[FcordX][FcordY] = new cell(FcordX, FcordY);
+				delete tempptr;
+				if (*playerTeam == WHITE)
+					*playerTeam = BLACK;
+				else
+					*playerTeam = WHITE;
+				break;
+			}
+			cin.ignore(100, '\n');
+		}
+	}
 }
