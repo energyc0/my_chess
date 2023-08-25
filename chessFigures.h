@@ -3,7 +3,7 @@
 
 enum team { WHITE, BLACK };
 
-class chessBoardElement	// виртуальный класс элементов шахматной доски
+class chessBoardElement	// абстрактный класс элементов шахматной доски
 {
 protected:
 	int cordX;
@@ -26,11 +26,12 @@ public:
 	{
 		return TeamEmblem;
 	}
+	virtual bool rightFigureMove(int McordX, int McordY) const = 0;	// правильность передвижения фигур
 };
 
 /////////////////////////////////////////////////////
 
-class chess_figure : public chessBoardElement
+class chess_figure : public chessBoardElement	// абстрактный класс для фигур
 {
 public:
 	chess_figure(int x, int y, team t) : chessBoardElement(x, y)
@@ -40,6 +41,7 @@ public:
 		else
 			TeamEmblem = ' ';			// команда чёрных
 	}
+	virtual bool rightFigureMove(int McordX, int McordY) const = 0;
 };
 
 //////////////////////////////////////////////////////
@@ -73,6 +75,7 @@ public:
 		}
 		TeamEmblem = emblem;
 	}
+	bool rightFigureMove(int McordX, int McordY) const { return true; }
 };
 
 //////////////////////////////////
@@ -84,6 +87,7 @@ public:
 	{
 		emblem = 'P';
 	}
+	bool rightFigureMove(int McordX, int McordY) const;
 };
 
 //////////////////////////////////
@@ -95,6 +99,7 @@ public:
 	{
 		emblem = 'R';
 	}
+	bool rightFigureMove(int McordX, int McordY) const;
 };
 
 //////////////////////////////////
@@ -106,6 +111,7 @@ public:
 	{
 		emblem = 'B';
 	}
+	bool rightFigureMove(int McordX, int McordY) const;
 };
 
 //////////////////////////////////
@@ -117,6 +123,7 @@ public:
 	{
 		emblem = 'K';
 	}
+	bool rightFigureMove(int McordX, int McordY) const;
 };
 
 //////////////////////////////////
@@ -128,6 +135,7 @@ public:
 	{
 		emblem = 'Q';
 	}
+	bool rightFigureMove(int McordX, int McordY) const;
 };
 
 //////////////////////////////////
@@ -139,4 +147,5 @@ public:
 	{
 		emblem = 'K';
 	}
+	bool rightFigureMove(int McordX, int McordY) const;
 };

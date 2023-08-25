@@ -1,2 +1,7 @@
 ﻿  chessBoard.cpp
-  my_chess.vcxproj -> C:\Users\gavri\source\repos\my_chess\x64\Debug\my_chess.exe
+C:\Users\gavri\source\repos\my_chess\chessBoard.h(18,31): error C2092: Тип элемента массива "field" не может быть функцией или абстрактным классом
+  chessFigures.cpp
+C:\Users\gavri\source\repos\my_chess\chessBoard.h(18,31): error C2092: Тип элемента массива "field" не может быть функцией или абстрактным классом
+  my_chess.cpp
+C:\Users\gavri\source\repos\my_chess\chessBoard.h(18,31): error C2092: Тип элемента массива "field" не может быть функцией или абстрактным классом
+  Создание кода...

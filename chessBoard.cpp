@@ -3,8 +3,6 @@
 
 using namespace std;
 
-chessBoardElement* chessBoard::field[8][8];
-
 void chessBoard::startGame()	// начало игры и расстановка фигур по местам
 {
 	team temp; // переменная определяющая команду фигуры
@@ -244,6 +242,10 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 			chessBoardElement* tempptr;
 			McordY = ans[0] - 65;
 			McordX = ans[1] - 49;
+			if (field[McordX][McordY]->rightFigureMove(McordX, McordY))
+			{
+				break;
+			}
 			tempptr = field[McordX][McordY];
 			if (field[McordX][McordY]->returnEmblem() == 'K')	// если убит чёй-то король
 			{
