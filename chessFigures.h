@@ -9,6 +9,8 @@ const char PawnEmblem = 'P';
 const char RookEmblem = 'R';
 const char BishopEmblem = 'B';
 const char KnightEmblem = 'K';
+const char BlackCell = char(177);
+const char WhiteCell = char(219);
 
 class chessBoardElement	// абстрактный класс элементов шахматной доски
 {
@@ -67,22 +69,22 @@ public:
 		{
 			if (y % 2 == 0)
 			{
-				emblem = char(219);	// белый цвет
+				emblem = WhiteCell;	// белый цвет
 			}
 			else
 			{
-				emblem = char(177); // чёрный цвет
+				emblem = BlackCell; // чёрный цвет
 			}
 		}
 		else
 		{
 			if (y % 2 == 0)
 			{
-				emblem = char(177); // чёрный цвет
+				emblem = BlackCell; // чёрный цвет
 			}
 			else
 			{
-				emblem = char(219); // белый цвет
+				emblem = WhiteCell; // белый цвет
 			}
 		}
 		TeamEmblem = emblem;

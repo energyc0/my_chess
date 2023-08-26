@@ -43,7 +43,7 @@ bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода ла
 		{
 			for (int i = 1; i < cordChange; i++)
 			{
-				if (chessBoard::field[cordX + i][cordY]->returnEmblem() != char(177) || chessBoard::field[cordX + i][cordY]->returnEmblem() != char(219))	// если на пути фигура, то ходить нельзя
+				if (chessBoard::field[cordX + i][cordY]->returnEmblem() != BlackCell || chessBoard::field[cordX + i][cordY]->returnEmblem() != WhiteCell)	// если на пути фигура, то ходить нельзя
 				{
 					std::cout << "\nThere is figure on the way";
 					return false;
@@ -54,7 +54,7 @@ bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода ла
 		{
 			for (int i = -1; i > cordChange; i--)
 			{
-				if (chessBoard::field[cordX + i][cordY]->returnEmblem() != char(177) || chessBoard::field[cordX + i][cordY]->returnEmblem() != char(219))	// если на пути фигура, то ходить нельзя
+				if (chessBoard::field[cordX + i][cordY]->returnEmblem() != BlackCell || chessBoard::field[cordX + i][cordY]->returnEmblem() != WhiteCell)	// если на пути фигура, то ходить нельзя
 				{
 					std::cout << "\nThere is figure on the way";
 					return false;
@@ -70,7 +70,7 @@ bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода ла
 		{
 			for (int i = 1; i < cordChange;i++)
 			{
-				if (chessBoard::field[cordX][cordY + i]->returnEmblem() != char(177) && chessBoard::field[cordX][cordY + i]->returnEmblem() != char(219))	// если на пути фигура, то ходить нельзя
+				if (chessBoard::field[cordX][cordY + i]->returnEmblem() != BlackCell && chessBoard::field[cordX][cordY + i]->returnEmblem() != WhiteCell)	// если на пути фигура, то ходить нельзя
 				{
 					std::cout << "\nThere is figure on the way";
 					return false;
@@ -81,7 +81,7 @@ bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода ла
 		{
 			for (int i = -1; i > cordChange; i--)
 			{
-				if (chessBoard::field[cordX][cordY + i]->returnEmblem() != char(177) && chessBoard::field[cordX][cordY + i]->returnEmblem() != char(219))	// если на пути фигура, то ходить нельзя
+				if (chessBoard::field[cordX][cordY + i]->returnEmblem() != BlackCell && chessBoard::field[cordX][cordY + i]->returnEmblem() != WhiteCell)	// если на пути фигура, то ходить нельзя
 				{
 					std::cout << "\nThere is figure on the way";
 					return false;
@@ -101,7 +101,70 @@ bool rook::rightFigureMove(int McordX, int McordY) const	// правильность хода ла
 
 bool bishop::rightFigureMove(int McordX, int McordY) const	// правильность хода слона
 {
-	return true;
+	int tempX, tempY;
+	if (!thereAlly(cordX, cordY, McordX, McordY))
+	{
+		return false;
+	} 
+	tempX = (cordX > McordX) ? cordX - McordX : McordX - cordX; // разница между x
+	tempY = (cordY > McordY) ? cordY - McordY : McordY - cordY; // разница между y
+	if (tempX == tempY)
+	{
+		tempX = McordX - cordX;
+		tempY = McordY - cordY;
+
+		if (tempX > 0 && tempY > 0)	// если положительная ось увеличивается
+		{
+			for (int i = 1; i < tempX; i++)
+			{
+				if (chessBoard::field[cordX + i][cordY + i]->returnEmblem() != BlackCell && chessBoard::field[cordX + i][cordY + i]->returnEmblem() != WhiteCell)
+				{
+					std::cout << "\nThere is a figure on the way";
+					return false;
+				}
+			}
+		}
+		else if (tempX > 0 && tempY < 0)	// если x увеличивается, y уменьшается
+		{
+			for (int i = 1; i < tempX; i++)
+			{
+				if (chessBoard::field[cordX + i][cordY - i]->returnEmblem() != BlackCell && chessBoard::field[cordX + i][cordY - i]->returnEmblem() != WhiteCell)
+				{
+					std::cout << "\nThere is a figure on the way";
+					return false;
+				}
+			}
+		}
+		else if (tempX < 0 && tempY > 0)	// если y увеличивается, x уменьшается
+		{
+			for (int i = 1; i < tempY; i++)
+			{
+				if (chessBoard::field[cordX - i][cordY + i]->returnEmblem() != BlackCell && chessBoard::field[cordX - i][cordY + i]->returnEmblem() != WhiteCell)
+				{
+					std::cout << "\nThere is a figure on the way";
+					return false;
+				}
+			}
+		}
+		else	// если отрицательная ось увеличивается
+		{
+			for (int i = -1; i > tempX; i--)
+			{
+				if (chessBoard::field[cordX + i][cordY + i]->returnEmblem() != BlackCell && chessBoard::field[cordX + i][cordY + i]->returnEmblem() != WhiteCell)
+				{	
+					std::cout << "\nThere is a figure on the way";
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+	else
+	{
+		std::cout << "\nYou can`t move likt that";
+		return false;
+	}
 }
 
 ///////////////////////////////
@@ -113,22 +176,8 @@ bool knight::rightFigureMove(int McordX, int McordY) const	// правильность хода 
 		return false;
 	}
 	int tempX, tempY;
-	if (cordX > McordX)				//разница между х
-	{
-		tempX = cordX - McordX;
-	}
-	else
-	{
-		tempX = McordX - cordX;
-	}
-	if (cordY > McordY)				//разница между у
-	{
-		tempY = cordY - McordY;
-	}
-	else
-	{
-		tempY = McordY - cordY;
-	}
+	tempX = (cordX > McordX) ? cordX - McordX : McordX - cordX;	// разница между x
+	tempY = (cordY > McordY) ? cordY - McordY : McordY - cordY; // разница между y
 
 	if ((tempX == 2 && tempY == 1) || (tempX == 1 && tempY == 2))
 		return true;

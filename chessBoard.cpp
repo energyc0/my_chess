@@ -73,12 +73,12 @@ void chessBoard::startGame()	// начало игры и расстановка фигур по местам
 
 void chessBoard::drawWhite(char emb, char Wteam)	// нарисовать белую клетку с фигурой или без
 {
-	cout << char(219) << emb  << Wteam << char(219);
+	cout << WhiteCell << emb  << Wteam << WhiteCell;
 }
 
 void chessBoard::drawBlack(char emb, char Wteam)	// нарисовать чёрную клетку с фигурой или без
 {
-	cout << char(177) << emb  << Wteam << char(177);
+	cout << BlackCell << emb  << Wteam << BlackCell;
 }
 
 void chessBoard::drawCell(int x, int y)
@@ -131,23 +131,23 @@ void chessBoard::drawBoard(team Player)	// консольная графика шахматной доски
 					{
 						if (y % 2 == 0)
 						{
-							chessBoard::drawWhite(char(219), char(219));	// пустая белая клетка
+							chessBoard::drawWhite(WhiteCell, WhiteCell);	// пустая белая клетка
 						}
 						else
 						{
-							chessBoard::drawBlack(char(177), char(177));	// пустая чёрная клетка
+							chessBoard::drawBlack(BlackCell, BlackCell);	// пустая чёрная клетка
 						}
 					}
 					else
 					{
 						if (y % 2 == 0)
 						{
-							chessBoard::drawBlack(char(177), char(177));	// пустая чёрная клетка
+							chessBoard::drawBlack(BlackCell, BlackCell);	// пустая чёрная клетка
 						}
 						else
 						{
 
-							chessBoard::drawWhite(char(219), char(219));  // пустая белая клетка
+							chessBoard::drawWhite(WhiteCell, WhiteCell);  // пустая белая клетка
 						}
 					}
 					if (x == 7)
@@ -208,7 +208,7 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 			if (field[FcordX][FcordY]->returnTeam() == teamEmb)	// проверка на соответствие команды игрока и фигуры
 				break;
 			else
-				if (field[FcordX][FcordY]->returnEmblem() == char(177) || field[FcordX][FcordY]->returnEmblem() == char(219))	// если пустая клетка
+				if (field[FcordX][FcordY]->returnEmblem() == BlackCell || field[FcordX][FcordY]->returnEmblem() == WhiteCell)	// если пустая клетка
 					cout << "There is no figure, try again";
 				else
 					cout << "This is the opponent`s figure, try again";		// или фигура противника
@@ -270,7 +270,7 @@ void chessBoard::moveFigure(team* playerTeam)		// движение фигуры или выход из и
 				exit(0);
 			}
 			else
-			{
+			{													// само передвижение
 				field[McordX][McordY] = field[FcordX][FcordY];
 				field[FcordX][FcordY] = new cell(FcordX, FcordY);
 				delete tempptr;
