@@ -20,6 +20,10 @@ protected:
 	char emblem;	// Отображение элемента на шахматной доске
 	char TeamEmblem;
 public:
+	chessBoardElement()
+	{
+		cordX = 0; cordY = 0; emblem = ' '; TeamEmblem = ' ';
+	}
 	chessBoardElement(int x, int y)
 	{
 		cordX = x;
@@ -48,6 +52,10 @@ public:
 class chess_figure : public chessBoardElement	// абстрактный класс для фигур
 {
 public:
+	chess_figure()
+	{
+		cordX = 0; cordY = 0; emblem = ' '; TeamEmblem = ' ';
+	}
 	chess_figure(int x, int y, team t) : chessBoardElement(x, y)
 	{
 		if (t == WHITE)
@@ -96,11 +104,15 @@ public:
 
 class pawn : public chess_figure	// пешка
 {
+	int countMoves;
 public:
 	pawn(int x, int y, team t) : chess_figure(x,y, t)
 	{
 		emblem = PawnEmblem;
+		countMoves = 0;
 	}
+	void increaseMoves();
+	int returnMoves();
 	bool rightFigureMove(int McordX, int McordY) const;
 };
 
