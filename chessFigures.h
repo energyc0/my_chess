@@ -111,8 +111,6 @@ public:
 		emblem = PawnEmblem;
 		countMoves = 0;
 	}
-	void increaseMoves();
-	int returnMoves();
 	bool rightFigureMove(int McordX, int McordY) const;
 };
 

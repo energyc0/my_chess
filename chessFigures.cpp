@@ -22,27 +22,17 @@ bool thereAlly(int cordX, int cordY, int McordX, int McordY)
 	return true;
 }
 
-void pawn::increaseMoves()
-{
-	countMoves++;
-}
-int pawn::returnMoves()
-{
-	return countMoves;
-}
-
 bool pawn::rightFigureMove(int McordX, int McordY) const	// правильность хода пешки
 {
 	if (!thereAlly(cordX, cordY, McordX, McordY))	// если бьётся своя фигура 
 	{
 		return false;
 	}
-	team tempTeam = (chessBoard::field[cordX][cordY]->returnTeam() == ' ') ? BLACK : WHITE;	// дать команду новой пешке
-	pawn* tempptr = new pawn(cordX, cordY, tempTeam);	// временная переменная пешки, которую надо проверить
+	team tempTeam = (chessBoard::field[cordX][cordY]->returnTeam() == ' ') ? BLACK : WHITE;	// узнать команду пешки
 	int tempX, tempY; // разница между x и у
 	tempY = McordY - cordY; // разница между x
 	tempX = McordX - cordX; // разница между y
-	if (tempptr->returnTeam() == ' ')	// команда чёрных
+	if (chessBoard::field[cordX][cordY]->returnTeam() == ' ')	// команда чёрных
 	{
 		if (((tempX == 0 && tempY == 1)))	// если пешка двигается вперед
 		{
@@ -52,7 +42,7 @@ bool pawn::rightFigureMove(int McordX, int McordY) const	// правильность хода пе
 				return false;
 			}
 		}
-		else if ((tempX == tempY) && (tempX == 1 || tempX == -1))	// если пешка бъёт противника
+		else if (((tempX == tempY) || ((tempX * -1) == tempY)) && (tempX == 1 || tempX == -1) && (tempY != -1))	// если пешка бъёт противника
 		{
 			if(!((chessBoard::field[McordX][McordY]->returnTeam() != chessBoard::field[cordX][cordY]->returnTeam()) && (chessBoard::field[McordX][McordY]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY]->returnEmblem() != BlackCell))) // если в действительности бьётся фигура
 			{
@@ -60,9 +50,9 @@ bool pawn::rightFigureMove(int McordX, int McordY) const	// правильность хода пе
 				return false;
 			}
 		}
-		else if (tempX == 0 && tempY == 2 && tempptr->returnMoves() == 0)	// если пешка делает первый шаг
+		else if (tempX == 0 && tempY == 2 && cordY == 1)	// если пешка делает первый шаг
 		{
-			if ((chessBoard::field[McordX][McordY]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY]->returnEmblem() != BlackCell) && (chessBoard::field[McordX][McordY -1 ]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY - 1]->returnEmblem() != BlackCell))	// если впереди не пустая клетка
+			if ((chessBoard::field[McordX][McordY]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY]->returnEmblem() != BlackCell) || (chessBoard::field[McordX][McordY -1 ]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY - 1]->returnEmblem() != BlackCell))	// если впереди не пустая клетка
 			{
 				std::cout << "\nYou can`t move like that";
 				return false;
@@ -73,13 +63,53 @@ bool pawn::rightFigureMove(int McordX, int McordY) const	// правильность хода пе
 			std::cout << "\nYou can`t move like that";
 			return false;
 		}
-
+		if (McordY == 7)	// если пешка дошла до конца поля
+		{
+			chessBoardElement** temp = new chessBoardElement*;
+			*temp = chessBoard::field[cordX][cordY];
+			chessBoard::field[cordX][cordY] = new queen(cordX, cordY, tempTeam);	// создание королевы
+			delete* temp;	// удаление пешки
+		}
 	}
 	else	// команда белых
 	{
-		
+		if (tempX == 0 && tempY == -1)	// если пешка двигается вперед
+		{
+			if (chessBoard::field[McordX][McordY]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY]->returnEmblem() != BlackCell)	// если впереди не пустая клетка
+			{
+				std::cout << "\nYou can`t move like that";
+				return false;
+			}
+		}
+		else if ((tempX == tempY) || ((tempX * -1) == tempY) && (tempX == 1 || tempX == -1) && (tempY != 1)) // если пешка бъёт противника
+		{
+			if (!((chessBoard::field[McordX][McordY]->returnTeam() != chessBoard::field[cordX][cordY]->returnTeam()) && (chessBoard::field[McordX][McordY]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY]->returnEmblem() != BlackCell))) // если в действительности бьётся фигура
+			{
+				std::cout << "\nYou can`t move like that";
+				return false;
+			}
+		}
+		else if (tempX == 0 && tempY == -2 && cordY == 6)	// если пешка делает первый шаг
+		{
+			if ((chessBoard::field[McordX][McordY]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY]->returnEmblem() != BlackCell) || (chessBoard::field[McordX][McordY - 1]->returnEmblem() != WhiteCell && chessBoard::field[McordX][McordY - 1]->returnEmblem() != BlackCell))	// если впереди не пустая клетка
+			{
+				std::cout << "\nYou can`t move like that";
+				return false;
+			}
+		}
+		else
+		{
+			std::cout << "\nYou can`t move like that";
+			return false;
+		}
+		if (McordY == 0)	// если пешка дошла до конца поля
+		{
+			chessBoardElement** temp = new chessBoardElement*;
+			*temp = chessBoard::field[cordX][cordY];
+			chessBoard::field[cordX][cordY] = new queen(cordX, cordY, tempTeam);	// создание королевы
+			delete* temp;	// удаление пешки
+		}
 	}
-	tempptr->countMoves++;	// увеличили число ходов пешки
 	return true;
 }
 
